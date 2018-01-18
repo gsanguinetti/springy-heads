@@ -92,9 +92,6 @@ public class ChatHeadService extends Service {
         });
 
         addChatHead();
-        addChatHead();
-        addChatHead();
-        addChatHead();
         chatHeadManager.setArrangement(MinimizedArrangement.class, null);
         moveToForeground();
 
@@ -124,7 +121,7 @@ public class ChatHeadService extends Service {
     }
 
     public void addChatHead() {
-        chatHeadIdentifier++;
+       // chatHeadIdentifier++;
         chatHeadManager.addChatHead(String.valueOf(chatHeadIdentifier), false, true);
         chatHeadManager.bringToFront(chatHeadManager.findChatHeadByKey(String.valueOf(chatHeadIdentifier)));
     }

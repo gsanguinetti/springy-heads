@@ -7,20 +7,11 @@ import android.content.Intent;
 import android.content.ServiceConnection;
 import android.os.Bundle;
 import android.os.IBinder;
-import android.view.View;
-import android.widget.Button;
-import android.widget.Toast;
 
 /**
  * Created by kiran.kumar on 06/02/16.
  */
-public class FloatingActivity extends Activity implements View.OnClickListener {
-
-    private Button addButton;
-    private Button removeButton;
-    private Button removeAllButtons;
-    private Button toggleButton;
-    private Button updateBadgeCount;
+public class FloatingActivity extends Activity {
 
     private ChatHeadService chatHeadService;
     private boolean bound;
@@ -51,43 +42,5 @@ public class FloatingActivity extends Activity implements View.OnClickListener {
         Intent intent = new Intent(this, ChatHeadService.class);
         startService(intent);
         bindService(intent, mConnection, Context.BIND_AUTO_CREATE);
-        setupButtons();
     }
-
-    private void setupButtons() {
-        setContentView(R.layout.activity_main);
-
-        addButton = (Button) findViewById(R.id.add_head);
-        removeButton = (Button) findViewById(R.id.remove_head);
-        removeAllButtons = (Button) findViewById(R.id.remove_all_heads);
-        toggleButton = (Button) findViewById(R.id.toggle_arrangement);
-        updateBadgeCount = (Button) findViewById(R.id.update_badge_count);
-
-        addButton.setOnClickListener(this);
-        removeButton.setOnClickListener(this);
-        removeAllButtons.setOnClickListener(this);
-        toggleButton.setOnClickListener(this);
-        updateBadgeCount.setOnClickListener(this);
-    }
-
-
-    @Override
-    public void onClick(View v) {
-        if (bound) {
-            if (v == addButton) {
-                chatHeadService.addChatHead();
-            } else if (v == removeButton) {
-                chatHeadService.removeChatHead();
-            } else if (v == removeAllButtons) {
-                chatHeadService.removeAllChatHeads();
-            } else if (v == toggleButton) {
-                chatHeadService.toggleArrangement();
-            } else if (v == updateBadgeCount) {
-                chatHeadService.updateBadgeCount();
-            }
-        } else {
-            Toast.makeText(this, "Service not bound", Toast.LENGTH_SHORT).show();
-        }
-    }
-
 }
