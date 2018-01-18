@@ -5,11 +5,13 @@ import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Binder;
 import android.os.IBinder;
 import android.support.v4.app.NotificationCompat;
+import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,6 +23,7 @@ import com.flipkart.chatheads.ui.MaximizedArrangement;
 import com.flipkart.chatheads.ui.MinimizedArrangement;
 import com.flipkart.chatheads.ui.container.DefaultChatHeadManager;
 import com.flipkart.chatheads.ui.container.WindowManagerContainer;
+import com.flipkart.circularImageView.BitmapDrawer;
 import com.flipkart.circularImageView.CircularDrawable;
 import com.flipkart.circularImageView.TextDrawer;
 import com.flipkart.circularImageView.notification.CircularNotificationDrawer;
@@ -90,39 +93,23 @@ public class ChatHeadService extends Service {
                 return ChatHeadService.this.getChatHeadDrawable(key);
             }
         });
-
+        
         addChatHead();
         chatHeadManager.setArrangement(MinimizedArrangement.class, null);
-        moveToForeground();
-
     }
 
     private Drawable getChatHeadDrawable(String key) {
-        Random rnd = new Random();
-        int randomColor = Color.argb(255, rnd.nextInt(256), rnd.nextInt(256), rnd.nextInt(256));
-        CircularDrawable circularDrawable = new CircularDrawable();
-        circularDrawable.setBitmapOrTextOrIcon(new TextDrawer().setText("C" + key).setBackgroundColor(randomColor));
-        int badgeCount = (int) (Math.random() * 10f);
-        circularDrawable.setNotificationDrawer(new CircularNotificationDrawer().setNotificationText(String.valueOf(badgeCount)).setNotificationAngle(135).setNotificationColor(Color.WHITE, Color.RED));
-        circularDrawable.setBorder(Color.WHITE, 3);
-        return circularDrawable;
+        return ContextCompat.getDrawable(getApplicationContext(), R.drawable.chathead);
 
-    }
-
-    private void moveToForeground() {
-        Notification notification = new NotificationCompat.Builder(this)
-                .setSmallIcon(R.drawable.notification_template_icon_bg)
-                .setContentTitle("Springy heads")
-                .setContentText("Click to configure.")
-                .setContentIntent(PendingIntent.getActivity(this, 0, new Intent(this, FloatingActivity.class), 0))
-                .build();
-
-        startForeground(1, notification);
     }
 
     public void addChatHead() {
-       // chatHeadIdentifier++;
-        chatHeadManager.addChatHead(String.valueOf(chatHeadIdentifier), false, true);
+        addChatHead(false);
+    }
+
+    public void addChatHead(boolean sticky) {
+        chatHeadIdentifier++;
+        chatHeadManager.addChatHead(String.valueOf(chatHeadIdentifier), sticky, false);
         chatHeadManager.bringToFront(chatHeadManager.findChatHeadByKey(String.valueOf(chatHeadIdentifier)));
     }
 
