@@ -29,5 +29,6 @@ dependencies {
     compile 'com.google.code.gson:gson:2.3.1'
     compile 'com.android.support:appcompat-v7:25+'
     compile 'com.github.flipkart-incubator:circular-image:1.0'
-    compile 'com.android.support.constraint:constraint-layout:1.0.2'
+    compile 'ai.api:sdk:2.0.7@aar'
+    compile 'ai.api:libai:1.6.12'
 }
