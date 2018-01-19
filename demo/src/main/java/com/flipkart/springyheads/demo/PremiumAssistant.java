@@ -45,7 +45,9 @@ public class PremiumAssistant {
 
             @Override
             protected void onPostExecute(AIResponse aiResponse) {
-                callback.receive("", aiResponse.getResult().getFulfillment().getSpeech());
+                if (aiResponse.getResult() != null) {
+                    callback.receive("", aiResponse.getResult().getFulfillment().getSpeech());
+                }
             }
         }.execute(Collections.emptyList());
     }
@@ -55,7 +57,9 @@ public class PremiumAssistant {
         aiService.setListener(new AIListener() {
             @Override
             public void onResult(AIResponse result) {
-                callback.receive(result.getResult().getResolvedQuery(), result.getResult().getFulfillment().getSpeech());
+                if (result.getResult() != null) {
+                    callback.receive(result.getResult().getResolvedQuery(), result.getResult().getFulfillment().getSpeech());
+                }
             }
 
             @Override

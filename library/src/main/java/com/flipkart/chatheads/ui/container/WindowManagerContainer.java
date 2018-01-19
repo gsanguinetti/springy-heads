@@ -4,16 +4,12 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.content.res.Configuration;
-import android.graphics.Color;
 import android.graphics.PixelFormat;
 import android.view.Gravity;
-import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
-import android.widget.FrameLayout;
 
 import com.flipkart.chatheads.ui.ChatHead;
 import com.flipkart.chatheads.ui.ChatHeadArrangement;
@@ -25,12 +21,10 @@ import com.flipkart.chatheads.ui.MinimizedArrangement;
 
 import static android.content.Context.WINDOW_SERVICE;
 import static android.view.ViewGroup.LayoutParams.MATCH_PARENT;
-import static android.view.WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM;
 import static android.view.WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE;
 import static android.view.WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE;
 import static android.view.WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL;
 import static android.view.WindowManager.LayoutParams.TYPE_PHONE;
-import static android.view.WindowManager.LayoutParams.TYPE_SYSTEM_OVERLAY;
 
 /**
  * Created by kiran.kumar on 08/11/16.
@@ -181,36 +175,38 @@ public class WindowManagerContainer extends FrameChatHeadContainer {
 
     @Override
     public void onArrangementChanged(ChatHeadArrangement oldArrangement, ChatHeadArrangement newArrangement) {
-        currentArrangement = newArrangement;
-        if (oldArrangement instanceof MinimizedArrangement && newArrangement instanceof MaximizedArrangement) {
-            // about to be maximized
-            WindowManager.LayoutParams layoutParams = getOrCreateLayoutParamsForContainer(motionCaptureView);
-            layoutParams.flags |= FLAG_NOT_FOCUSABLE | FLAG_NOT_TOUCHABLE;
-            windowManager.updateViewLayout(motionCaptureView, layoutParams);
+        if (motionCaptureView.isAttachedToWindow()) {
+            currentArrangement = newArrangement;
+            if (oldArrangement instanceof MinimizedArrangement && newArrangement instanceof MaximizedArrangement) {
+                // about to be maximized
+                WindowManager.LayoutParams layoutParams = getOrCreateLayoutParamsForContainer(motionCaptureView);
+                layoutParams.flags |= FLAG_NOT_FOCUSABLE | FLAG_NOT_TOUCHABLE;
+                windowManager.updateViewLayout(motionCaptureView, layoutParams);
 
-            layoutParams = getOrCreateLayoutParamsForContainer(getFrameLayout());
-            layoutParams.flags &= ~FLAG_NOT_FOCUSABLE; //add focusability
-            layoutParams.flags &= ~FLAG_NOT_TOUCHABLE; //add focusability
-            layoutParams.flags |= FLAG_NOT_TOUCH_MODAL;
+                layoutParams = getOrCreateLayoutParamsForContainer(getFrameLayout());
+                layoutParams.flags &= ~FLAG_NOT_FOCUSABLE; //add focusability
+                layoutParams.flags &= ~FLAG_NOT_TOUCHABLE; //add focusability
+                layoutParams.flags |= FLAG_NOT_TOUCH_MODAL;
 
-            windowManager.updateViewLayout(getFrameLayout(), layoutParams);
+                windowManager.updateViewLayout(getFrameLayout(), layoutParams);
 
-            setContainerX(motionCaptureView, 0);
-            setContainerY(motionCaptureView, 0);
-            setContainerWidth(motionCaptureView, getFrameLayout().getMeasuredWidth());
-            setContainerHeight(motionCaptureView, getFrameLayout().getMeasuredHeight());
+                setContainerX(motionCaptureView, 0);
+                setContainerY(motionCaptureView, 0);
+                setContainerWidth(motionCaptureView, getFrameLayout().getMeasuredWidth());
+                setContainerHeight(motionCaptureView, getFrameLayout().getMeasuredHeight());
 
-        } else {
-            // about to be minimized
-            WindowManager.LayoutParams layoutParams = getOrCreateLayoutParamsForContainer(motionCaptureView);
-            layoutParams.flags |= FLAG_NOT_FOCUSABLE; //remove focusability
-            layoutParams.flags &= ~FLAG_NOT_TOUCHABLE; //add touch
-            layoutParams.flags |= FLAG_NOT_TOUCH_MODAL; //add touch
-            windowManager.updateViewLayout(motionCaptureView, layoutParams);
+            } else {
+                // about to be minimized
+                WindowManager.LayoutParams layoutParams = getOrCreateLayoutParamsForContainer(motionCaptureView);
+                layoutParams.flags |= FLAG_NOT_FOCUSABLE; //remove focusability
+                layoutParams.flags &= ~FLAG_NOT_TOUCHABLE; //add touch
+                layoutParams.flags |= FLAG_NOT_TOUCH_MODAL; //add touch
+                windowManager.updateViewLayout(motionCaptureView, layoutParams);
 
-            layoutParams = getOrCreateLayoutParamsForContainer(getFrameLayout());
-            layoutParams.flags |= FLAG_NOT_FOCUSABLE | FLAG_NOT_TOUCHABLE;
-            windowManager.updateViewLayout(getFrameLayout(), layoutParams);
+                layoutParams = getOrCreateLayoutParamsForContainer(getFrameLayout());
+                layoutParams.flags |= FLAG_NOT_FOCUSABLE | FLAG_NOT_TOUCHABLE;
+                windowManager.updateViewLayout(getFrameLayout(), layoutParams);
+            }
         }
     }
 
@@ -222,7 +218,7 @@ public class WindowManagerContainer extends FrameChatHeadContainer {
             WindowManager.LayoutParams motionCaptureParams = getOrCreateLayoutParamsForContainer(motionCaptureView);
             motionCaptureParams.width = 0;
             motionCaptureParams.height = 0;
-            windowManager.updateViewLayout(motionCaptureView,motionCaptureParams);
+            windowManager.updateViewLayout(motionCaptureView, motionCaptureParams);
             motionCaptureViewAdded = true;
         }
     }
