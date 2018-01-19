@@ -2,6 +2,7 @@ package com.flipkart.springyheads.demo;
 
 import android.app.AlertDialog;
 import android.app.Service;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -119,6 +120,8 @@ public class ChatHeadService extends Service {
                     mChatView.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.softBackground));
                     mChatView.setSendButtonColor(Color.WHITE);
                     mChatView.setSendIcon(SEND_ICON);
+                    mChatView.setOptionIcon(R.drawable.ic_microphone_off);
+                    mChatView.setOptionButtonColor(Color.WHITE);
                     mChatView.setRightMessageTextColor(Color.WHITE);
                     mChatView.setLeftMessageTextColor(Color.WHITE);
                     mChatView.setUsernameTextColor(Color.BLACK);
@@ -175,6 +178,16 @@ public class ChatHeadService extends Service {
                                     mMessageList.add(message);
                                     receiveMessage(message1);
                                 }
+
+                                @Override
+                                public void onSpeechRecognitionStarted() {
+                                    mChatView.setOptionIcon(R.drawable.ic_microphone_on);
+                                }
+
+                                @Override
+                                public void onSpeechRecognitionFinished() {
+                                    mChatView.setOptionIcon(R.drawable.ic_microphone_off);
+                                }
                             });
                         }
                     });
@@ -211,6 +224,16 @@ public class ChatHeadService extends Service {
                                 @Override
                                 public void receive(String request, String message) {
                                     receiveMessage(message);
+                                }
+
+                                @Override
+                                public void onSpeechRecognitionStarted() {
+                                    mChatView.setOptionIcon(R.drawable.ic_microphone_on);
+                                }
+
+                                @Override
+                                public void onSpeechRecognitionFinished() {
+                                    mChatView.setOptionIcon(R.drawable.ic_microphone_off);
                                 }
                             });
                         }
@@ -312,11 +335,11 @@ public class ChatHeadService extends Service {
         //User icon
         Bitmap myIcon = BitmapFactory.decodeResource(getResources(), R.drawable.face_2);
         //User name
-        String myName = "Customer";
+        String myName = "Adrienn Cseh";
 
         int yourId = 1;
         Bitmap yourIcon = BitmapFactory.decodeResource(getResources(), R.drawable.chathead);
-        String yourName = "Peter";
+        String yourName = "Jockey";
 
         final User me = new User(myId, myName, myIcon);
         final User you = new User(yourId, yourName, yourIcon);

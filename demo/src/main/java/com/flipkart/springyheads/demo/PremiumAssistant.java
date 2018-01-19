@@ -70,7 +70,7 @@ public class PremiumAssistant {
 
             @Override
             public void onListeningStarted() {
-
+                callback.onSpeechRecognitionStarted();
             }
 
             @Override
@@ -80,7 +80,7 @@ public class PremiumAssistant {
 
             @Override
             public void onListeningFinished() {
-
+                callback.onSpeechRecognitionFinished();
             }
         });
 
@@ -91,5 +91,8 @@ public class PremiumAssistant {
 
         void receive(String request, String message);
 
+        void onSpeechRecognitionStarted();
+
+        void onSpeechRecognitionFinished();
     }
 }
