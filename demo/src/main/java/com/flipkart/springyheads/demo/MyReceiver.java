@@ -1,50 +1,51 @@
 package com.flipkart.springyheads.demo;
 
-import android.app.Activity;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.BitmapFactory;
-import android.os.Bundle;
-import android.support.annotation.Nullable;
+import android.os.Handler;
 import android.support.v4.app.NotificationCompat;
-import android.view.MotionEvent;
-import android.view.View;
 
-public class SplashActivity extends Activity {
+import java.util.concurrent.TimeUnit;
+
+public class MyReceiver extends BroadcastReceiver {
 
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_splash);
-        sendNotification();
-        finish();
+    public void onReceive(final Context context, Intent intent) {
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                sendNotification(context);
+            }
+        }, TimeUnit.SECONDS.toMillis(20));
     }
 
-    public void sendNotification() {
+    public void sendNotification(Context context) {
 
-        Intent intent = new Intent(getApplicationContext(), FloatingActivity.class);
+        Intent intent = new Intent(context, FloatingActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
 
         //Get an instance of NotificationManager//
 
         NotificationCompat.Builder mBuilder =
-                new NotificationCompat.Builder(getApplicationContext())
+                new NotificationCompat.Builder(context)
                         .setSmallIcon(R.drawable.chathead)
-                        .setLargeIcon(BitmapFactory.decodeResource(getResources(), R.drawable.chathead))
+                        .setLargeIcon(BitmapFactory.decodeResource(context.getResources(), R.drawable.chathead))
                         .setContentTitle("Szia!")
                         .setContentText("Van számodra egy szuper ajánlatom!")
                         .setAutoCancel(true)
-                       .setDeleteIntent(PendingIntent.getBroadcast(this, 0, new Intent(this, MyReceiver.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK), PendingIntent.FLAG_UPDATE_CURRENT))
-                        .setContentIntent(PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT));
+                        //.setDeleteIntent(PendingIntent.getBroadcast(context, 0, new Intent(context, MyReceiver.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK), PendingIntent.FLAG_UPDATE_CURRENT))
+                        .setContentIntent(PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT));
 
 
         // Gets an instance of the NotificationManager service//
 
         NotificationManager notificationManager =
 
-                (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+                (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
 
         // When you issue multiple notifications about the same type of event,
         // it’s best practice for your app to try to update an existing notification

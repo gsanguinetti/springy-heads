@@ -259,6 +259,9 @@ public class ChatHeadService extends Service {
 
         addChatHead();
         chatHeadManager.setArrangement(MinimizedArrangement.class, null);
+
+        receiveMessage("Hi!");
+        receiveMessage("aaaaaaadasdasdadaaadasdasda");
     }
 
     private Drawable getChatHeadDrawable(String key) {
