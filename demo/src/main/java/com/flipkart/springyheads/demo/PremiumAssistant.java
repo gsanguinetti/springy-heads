@@ -12,6 +12,7 @@ import ai.api.android.AIService;
 import ai.api.model.AIError;
 import ai.api.model.AIRequest;
 import ai.api.model.AIResponse;
+import ai.api.model.Result;
 
 public class PremiumAssistant {
 
@@ -46,7 +47,7 @@ public class PremiumAssistant {
             @Override
             protected void onPostExecute(AIResponse aiResponse) {
                 if (aiResponse.getResult() != null) {
-                    callback.receive("", aiResponse.getResult().getFulfillment().getSpeech());
+                    callback.receive(aiResponse.getResult());
                 }
             }
         }.execute(Collections.emptyList());
@@ -58,7 +59,7 @@ public class PremiumAssistant {
             @Override
             public void onResult(AIResponse result) {
                 if (result.getResult() != null) {
-                    callback.receive(result.getResult().getResolvedQuery(), result.getResult().getFulfillment().getSpeech());
+                    callback.receive(result.getResult());
                 }
             }
 
@@ -93,7 +94,7 @@ public class PremiumAssistant {
 
     public interface ReceiveMessageCallback {
 
-        void receive(String request, String message);
+        void receive(Result result);
 
         void onSpeechRecognitionStarted();
 
