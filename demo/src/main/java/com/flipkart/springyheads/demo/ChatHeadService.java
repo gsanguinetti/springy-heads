@@ -4,7 +4,6 @@ import android.app.Notification;
 import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Intent;
-import android.content.res.Configuration;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Binder;
@@ -58,7 +57,7 @@ public class ChatHeadService extends Service {
                 View cachedView = viewCache.get(key);
                 if (cachedView == null) {
                     LayoutInflater inflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
-                    View view = inflater.inflate(R.layout.fragment_test, parent, false);
+                    View view = inflater.inflate(R.layout.fragment_chat, parent, false);
                     TextView identifier = (TextView) view.findViewById(R.id.identifier);
                     identifier.setText(key);
                     cachedView = view;
