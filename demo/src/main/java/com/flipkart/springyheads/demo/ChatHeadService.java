@@ -278,8 +278,9 @@ public class ChatHeadService extends Service {
         addChatHead();
         chatHeadManager.setArrangement(MinimizedArrangement.class, null);
 
-        receiveMessage("Hi!");
-        receiveMessage("aaaaaaadasdasdadaaadasdasda");
+        receiveMessage("Hello!");
+        receiveMessage("Based on your recent transaction history a 6663 Ft payment should be sent today to partner Diákhitel.\n" +
+                "Would you like to do it now?");
     }
 
     private Drawable getChatHeadDrawable(String key) {

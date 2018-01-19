@@ -34,8 +34,8 @@ public class MyReceiver extends BroadcastReceiver {
                 new NotificationCompat.Builder(context)
                         .setSmallIcon(R.drawable.chathead)
                         .setLargeIcon(BitmapFactory.decodeResource(context.getResources(), R.drawable.chathead))
-                        .setContentTitle("Szia!")
-                        .setContentText("Van számodra egy szuper ajánlatom!")
+                        .setContentTitle("Hello!")
+                        .setContentText("Based on your recent transaction history...")
                         .setAutoCancel(true)
                         //.setDeleteIntent(PendingIntent.getBroadcast(context, 0, new Intent(context, MyReceiver.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK), PendingIntent.FLAG_UPDATE_CURRENT))
                         .setContentIntent(PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT));
