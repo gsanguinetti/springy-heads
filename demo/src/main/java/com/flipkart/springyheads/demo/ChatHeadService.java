@@ -1,6 +1,5 @@
 package com.flipkart.springyheads.demo;
 
-import android.app.ActionBar;
 import android.app.AlertDialog;
 import android.app.Service;
 import android.content.Context;
@@ -13,17 +12,11 @@ import android.graphics.drawable.Drawable;
 import android.os.Binder;
 import android.os.Handler;
 import android.os.IBinder;
-import android.support.annotation.RequiresApi;
 import android.support.annotation.VisibleForTesting;
 import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
-import android.widget.ImageButton;
-import android.widget.LinearLayout;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import com.flipkart.chatheads.ui.ChatHead;
 import com.flipkart.chatheads.ui.ChatHeadViewAdapter;
@@ -35,6 +28,8 @@ import com.github.bassaer.chatmessageview.model.IChatUser;
 import com.github.bassaer.chatmessageview.model.Message;
 import com.github.bassaer.chatmessageview.view.ChatView;
 import com.github.bassaer.chatmessageview.view.MessageView;
+
+import org.jetbrains.annotations.NotNull;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -136,6 +131,54 @@ public class ChatHeadService extends Service {
                     mChatView.setMaxInputLine(5);
                     mChatView.setUsernameFontSize(getResources().getDimension(R.dimen.font_small));
 
+                    mChatView.setOnBubbleClickListener(new Message.OnBubbleClickListener() {
+                        @Override
+                        public void onClick(@NotNull Message message) {
+
+                        }
+                    });
+
+                    mChatView.setOnBubbleLongClickListener(new Message.OnBubbleLongClickListener() {
+                        @Override
+                        public void onLongClick(@NotNull Message message) {
+
+                        }
+                    });
+
+                    mChatView.setOnClickOptionButtonListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            initUsers();
+                            //new message
+                            final Message message = new Message.Builder()
+                                    .setUser(mUsers.get(0))
+                                    .setRightMessage(true)
+                                    .setMessageText(mChatView.getInputText())
+                                    .hideIcon(true)
+                                    .setStatusIconFormatter(new MyMessageStatusFormatter(getApplicationContext()))
+                                    .setStatusTextFormatter(new MyMessageStatusFormatter(getApplicationContext()))
+                                    .setMessageStatusType(Message.Companion.getMESSAGE_STATUS_ICON())
+                                    .setStatus(MyMessageStatusFormatter.STATUS_DELIVERED)
+                                    .build();
+
+                            //Set random status(Delivering, delivered, seen or fail)
+                            int messageStatus = new Random().nextInt(4);
+                            message.setStatus(messageStatus);
+
+                            PremiumAssistant.INSTANCE.speech(getApplicationContext(), "aaaa", new PremiumAssistant.ReceiveMessageCallback() {
+                                @Override
+                                public void receive(String request, String message1) {
+                                    //Set to chat view
+                                    message.setMessageText(request);
+                                    mChatView.send(message);
+                                    //Add message list
+                                    mMessageList.add(message);
+                                    receiveMessage(message1);
+                                }
+                            });
+                        }
+                    });
+
                     //Click Send Button
                     mChatView.setOnClickSendButtonListener(new View.OnClickListener() {
                         @Override
@@ -166,20 +209,12 @@ public class ChatHeadService extends Service {
 
                             PremiumAssistant.INSTANCE.talk(getApplicationContext(), "aaaa", message.getMessageText(), new PremiumAssistant.ReceiveMessageCallback() {
                                 @Override
-                                public void receive(String message) {
+                                public void receive(String request, String message) {
                                     receiveMessage(message);
                                 }
                             });
                         }
 
-                    });
-
-                    //Click option button
-                    mChatView.setOnClickOptionButtonListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            showDialog();
-                        }
                     });
 
                     cachedView = view;
@@ -328,7 +363,7 @@ public class ChatHeadService extends Service {
                 getString(R.string.clear_messages)
         };
 
-        new AlertDialog.Builder(this)
+        new AlertDialog.Builder(getApplicationContext())
                 .setTitle(getString(R.string.options))
                 .setItems(items, new DialogInterface.OnClickListener() {
                     @Override
