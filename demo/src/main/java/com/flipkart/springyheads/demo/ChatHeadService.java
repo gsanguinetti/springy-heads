@@ -157,10 +157,6 @@ public class ChatHeadService extends Service {
                                     .setStatus(MyMessageStatusFormatter.STATUS_DELIVERED)
                                     .build();
 
-                            //Set random status(Delivering, delivered, seen or fail)
-                            int messageStatus = new Random().nextInt(4);
-                            message.setStatus(messageStatus);
-
                             PremiumAssistant.INSTANCE.speech(getApplicationContext(), "aaaa", new PremiumAssistant.ReceiveMessageCallback() {
                                 @Override
                                 public void receive(String request, String message1) {
@@ -190,10 +186,6 @@ public class ChatHeadService extends Service {
                                     .setMessageStatusType(Message.Companion.getMESSAGE_STATUS_ICON())
                                     .setStatus(MyMessageStatusFormatter.STATUS_DELIVERED)
                                     .build();
-
-                            //Set random status(Delivering, delivered, seen or fail)
-                            int messageStatus = new Random().nextInt(4);
-                            message.setStatus(messageStatus);
 
                             //Set to chat view
                             mChatView.send(message);
