@@ -299,6 +299,20 @@ public class ChatHeadService extends Service {
                     .setStatus(MyMessageStatusFormatter.STATUS_DELIVERED)
                     .build();
 
+
+            Bitmap fingerprintIcon = BitmapFactory.decodeResource(getApplicationContext().getResources(),
+                    R.drawable.ic_fingerprint);
+            final Message fingerprintMessage = new Message.Builder()
+                    .setUser(mUsers.get(1))
+                    .setRightMessage(false)
+                    .setMessageText("Fingerprint authenticated")
+                    .setStatusIconFormatter(new MyMessageStatusFormatter(getApplicationContext()))
+                    .setStatusTextFormatter(new MyMessageStatusFormatter(getApplicationContext()))
+                    .setMessageStatusType(Message.Companion.getMESSAGE_STATUS_ICON())
+                    .setStatus(MyMessageStatusFormatter.STATUS_DELIVERED)
+                    .build();
+
+
             if (sendText.equals(Message.Type.PICTURE.name())) {
                 receivedMessage.setMessageText("Nice!");
             }
@@ -308,14 +322,26 @@ public class ChatHeadService extends Service {
             if (mReplyDelay < 0) {
                 mReplyDelay = (new Random().nextInt(4) + 1) * 1000;
             }
-            new Handler().postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    mChatView.receive(receivedMessage);
-                    //Add message list
-                    mMessageList.add(receivedMessage);
-                }
-            }, mReplyDelay);
+            if(sendText.contains("Please sign your request!")){
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        mChatView.receive(fingerprintMessage);
+                        //Add message list
+                        mMessageList.add(fingerprintMessage);
+                    }
+                }, mReplyDelay);
+            } else {
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        mChatView.receive(receivedMessage);
+                        //Add message list
+                        mMessageList.add(receivedMessage);
+                    }
+                }, mReplyDelay);
+            }
+
         }
     }
 
