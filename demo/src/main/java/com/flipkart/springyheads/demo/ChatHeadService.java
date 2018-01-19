@@ -1,7 +1,6 @@
 package com.flipkart.springyheads.demo;
 
 import android.app.Service;
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -207,7 +206,12 @@ public class ChatHeadService extends Service {
                             //Reset edit text
                             mChatView.setInputText("");
 
-                            PremiumAssistant.INSTANCE.talk(getApplicationContext(), "aaaa", message.getMessageText(), new PremiumAssistant.ReceiveMessageCallback() {
+                            String text = message.getMessageText();
+                            if (mMessageList.size() == 3) {
+                                text = "diakhitel transaction";
+                            }
+
+                            PremiumAssistant.INSTANCE.talk(getApplicationContext(), "aaaa", text, new PremiumAssistant.ReceiveMessageCallback() {
                                 @Override
                                 public void receive(String request, String message) {
                                     receiveMessage(message);
@@ -225,6 +229,20 @@ public class ChatHeadService extends Service {
                             });
                         }
 
+                    });
+
+                    mChatView.setOnIconClickListener(new Message.OnIconClickListener() {
+                        @Override
+                        public void onIconClick(@NotNull Message message) {
+
+                        }
+                    });
+
+                    mChatView.setOnIconLongClickListener(new Message.OnIconLongClickListener() {
+                        @Override
+                        public void onIconLongClick(@NotNull Message message) {
+
+                        }
                     });
 
                     cachedView = view;
