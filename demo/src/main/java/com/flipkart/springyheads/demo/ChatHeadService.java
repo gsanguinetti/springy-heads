@@ -35,6 +35,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
+import java.util.concurrent.TimeUnit;
+
+import ai.api.model.Result;
 
 public class ChatHeadService extends Service {
 
@@ -161,13 +164,15 @@ public class ChatHeadService extends Service {
 
                             PremiumAssistant.INSTANCE.speech(getApplicationContext(), "aaaa", new PremiumAssistant.ReceiveMessageCallback() {
                                 @Override
-                                public void receive(String request, String message1) {
+                                public void receive(Result result) {
                                     //Set to chat view
-                                    message.setMessageText(request);
+                                    message.setMessageText(result.getResolvedQuery());
                                     mChatView.send(message);
                                     //Add message list
                                     mMessageList.add(message);
-                                    receiveMessage(message1);
+                                    receiveMessage(result.getFulfillment().getSpeech());
+
+                                    magic(result);
                                 }
 
                                 @Override
@@ -213,8 +218,10 @@ public class ChatHeadService extends Service {
 
                             PremiumAssistant.INSTANCE.talk(getApplicationContext(), "aaaa", text, new PremiumAssistant.ReceiveMessageCallback() {
                                 @Override
-                                public void receive(String request, String message) {
-                                    receiveMessage(message);
+                                public void receive(Result result) {
+                                    receiveMessage(result.getFulfillment().getSpeech());
+                                    magic(result);
+
                                 }
 
                                 @Override
@@ -281,6 +288,17 @@ public class ChatHeadService extends Service {
         receiveMessage("Hello!");
         receiveMessage("Based on your recent transaction history a 6663 Ft payment should be sent today to partner Diákhitel.\n" +
                 "Would you like to do it now?");
+    }
+
+    private void magic(Result result) {
+        if (result.getAction().equals("diakhitel") && result.isActionIncomplete()) {
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    NotificationFactory.showNotification(getApplicationContext(), "AAA", "AAAA");
+                }
+            }, TimeUnit.SECONDS.toMillis(30));
+        }
     }
 
     private Drawable getChatHeadDrawable(String key) {
