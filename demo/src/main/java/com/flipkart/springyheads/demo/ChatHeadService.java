@@ -322,7 +322,7 @@ public class ChatHeadService extends Service {
         //User icon
         Bitmap myIcon = BitmapFactory.decodeResource(getResources(), R.drawable.csajszi);
         //User name
-        String myName = "Adrienn Cseh";
+        String myName = "Adrienn";
 
         int yourId = 1;
         Bitmap yourIcon = BitmapFactory.decodeResource(getResources(), R.drawable.chathead);
