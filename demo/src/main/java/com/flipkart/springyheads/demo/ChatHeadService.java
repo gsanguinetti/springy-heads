@@ -1,5 +1,6 @@
 package com.flipkart.springyheads.demo;
 
+import android.app.ActionBar;
 import android.app.AlertDialog;
 import android.app.Notification;
 import android.app.PendingIntent;
@@ -14,12 +15,16 @@ import android.os.Binder;
 import android.os.Build;
 import android.os.Handler;
 import android.os.IBinder;
+import android.support.annotation.RequiresApi;
 import android.support.annotation.VisibleForTesting;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
+import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -116,24 +121,26 @@ public class ChatHeadService extends Service {
 
                     mChatView = (ChatView) view.findViewById(R.id.chat_view);
 
+                    setMessageboxColors(mChatView);
+
                     //Load saved messages
                     loadMessages();
 
                     //Set UI parameters if you need
-                    mChatView.setRightBubbleColor(ContextCompat.getColor(getApplicationContext(),RIGHT_BUBBLE_COLOR));
-                    mChatView.setLeftBubbleColor(ContextCompat.getColor(getApplicationContext(), LEFT_BUBBLE_COLOR));
-                    mChatView.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), BACKGROUND_COLOR));
-                    mChatView.setSendButtonColor(ContextCompat.getColor(getApplicationContext(), SEND_BUTTON_COLOR));
+                    mChatView.setRightBubbleColor(Color.BLUE);
+                    mChatView.setLeftBubbleColor(Color.LTGRAY);
+                    mChatView.setBackgroundColor(Color.WHITE);
+                    mChatView.setSendButtonColor(Color.BLUE);
                     mChatView.setSendIcon(SEND_ICON);
-                    mChatView.setRightMessageTextColor(RIGHT_MESSAGE_TEXT_COLOR);
-                    mChatView.setLeftMessageTextColor(LEFT_MESSAGE_TEXT_COLOR);
-                    mChatView.setUsernameTextColor(USERNAME_TEXT_COLOR);
-                    mChatView.setSendTimeTextColor(SEND_TIME_TEXT_COLOR);
-                    mChatView.setDateSeparatorColor(DATA_SEPARATOR_COLOR);
-                    mChatView.setMessageStatusTextColor(MESSAGE_STATUS_TEXT_COLOR);
+                    mChatView.setRightMessageTextColor(Color.WHITE);
+                    mChatView.setLeftMessageTextColor(Color.WHITE);
+                    mChatView.setUsernameTextColor(Color.BLACK);
+                    mChatView.setSendTimeTextColor(Color.BLACK);
+                    mChatView.setDateSeparatorColor(Color.BLACK);
+                    mChatView.setMessageStatusTextColor(Color.BLACK);
                     mChatView.setInputTextHint(INPUT_TEXT_HINT);
-                    mChatView.setMessageMarginTop(MESSAGE_MARGIN);
-                    mChatView.setMessageMarginBottom(MESSAGE_MARGIN);
+                    mChatView.setMessageMarginTop(10);
+                    mChatView.setMessageMarginBottom(10);
                     mChatView.setMaxInputLine(5);
                     mChatView.setUsernameFontSize(getResources().getDimension(R.dimen.font_small));
 
@@ -318,11 +325,11 @@ public class ChatHeadService extends Service {
         //User icon
         Bitmap myIcon = BitmapFactory.decodeResource(getResources(), R.drawable.face_2);
         //User name
-        String myName = "Geri";
+        String myName = "Customer";
 
         int yourId = 1;
-        Bitmap yourIcon = BitmapFactory.decodeResource(getResources(), R.drawable.face_1);
-        String yourName = "Adricsek";
+        Bitmap yourIcon = BitmapFactory.decodeResource(getResources(), R.drawable.chathead);
+        String yourName = "Peter";
 
         final User me = new User(myId, myName, myIcon);
         final User you = new User(yourId, yourName, yourIcon);
@@ -417,6 +424,10 @@ public class ChatHeadService extends Service {
 
     public void minimize() {
         chatHeadManager.setArrangement(MinimizedArrangement.class,null);
+    }
+
+    public void setMessageboxColors(ChatView chatView) {
+
     }
 
     /**
