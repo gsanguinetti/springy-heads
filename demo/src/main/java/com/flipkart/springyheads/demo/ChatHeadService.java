@@ -93,7 +93,7 @@ public class ChatHeadService extends Service {
                 return ChatHeadService.this.getChatHeadDrawable(key);
             }
         });
-        
+
         addChatHead();
         chatHeadManager.setArrangement(MinimizedArrangement.class, null);
     }

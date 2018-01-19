@@ -22,9 +22,10 @@ android {
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     //    compile 'com.flipkart.springyheads:library:0.9.6'
-    compile 'com.github.flipkart-incubator:circular-image:1.0'
-    compile ('com.github.bassaer:chatmessageview:1.8.6') {
+    compile('com.github.bassaer:chatmessageview:1.8.6') {
         exclude group: 'com.android.support'
     }
     compile project(':library')
+    compile 'com.github.flipkart-incubator:circular-image:1.0'
+    compile 'com.android.support.constraint:constraint-layout:1.0.2'
 }
