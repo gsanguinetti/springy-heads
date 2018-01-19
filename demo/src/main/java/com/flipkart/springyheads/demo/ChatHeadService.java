@@ -1,9 +1,7 @@
 package com.flipkart.springyheads.demo;
 
-import android.app.AlertDialog;
 import android.app.Service;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -94,6 +92,7 @@ public class ChatHeadService extends Service {
     public void onCreate() {
         super.onCreate();
 
+        initUsers();
         windowManagerContainer = new WindowManagerContainer(this);
         chatHeadManager = new DefaultChatHeadManager<String>(this, windowManagerContainer);
         chatHeadManager.setViewAdapter(new ChatHeadViewAdapter<String>() {
@@ -104,8 +103,6 @@ public class ChatHeadService extends Service {
                 if (cachedView == null) {
                     LayoutInflater inflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
                     View view = inflater.inflate(R.layout.fragment_chat, parent, false);
-
-                    initUsers();
 
                     mChatView = (ChatView) view.findViewById(R.id.chat_view);
 
@@ -151,22 +148,17 @@ public class ChatHeadService extends Service {
                     mChatView.setOnClickOptionButtonListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            initUsers();
                             //new message
                             final Message message = new Message.Builder()
                                     .setUser(mUsers.get(0))
                                     .setRightMessage(true)
                                     .setMessageText(mChatView.getInputText())
-                                    .hideIcon(true)
+                                    .hideIcon(false)
                                     .setStatusIconFormatter(new MyMessageStatusFormatter(getApplicationContext()))
                                     .setStatusTextFormatter(new MyMessageStatusFormatter(getApplicationContext()))
                                     .setMessageStatusType(Message.Companion.getMESSAGE_STATUS_ICON())
                                     .setStatus(MyMessageStatusFormatter.STATUS_DELIVERED)
                                     .build();
-
-                            //Set random status(Delivering, delivered, seen or fail)
-                            int messageStatus = new Random().nextInt(4);
-                            message.setStatus(messageStatus);
 
                             PremiumAssistant.INSTANCE.speech(getApplicationContext(), "aaaa", new PremiumAssistant.ReceiveMessageCallback() {
                                 @Override
@@ -196,22 +188,17 @@ public class ChatHeadService extends Service {
                     mChatView.setOnClickSendButtonListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
-                            initUsers();
                             //new message
                             Message message = new Message.Builder()
                                     .setUser(mUsers.get(0))
                                     .setRightMessage(true)
                                     .setMessageText(mChatView.getInputText())
-                                    .hideIcon(true)
+                                    .hideIcon(false)
                                     .setStatusIconFormatter(new MyMessageStatusFormatter(getApplicationContext()))
                                     .setStatusTextFormatter(new MyMessageStatusFormatter(getApplicationContext()))
                                     .setMessageStatusType(Message.Companion.getMESSAGE_STATUS_ICON())
                                     .setStatus(MyMessageStatusFormatter.STATUS_DELIVERED)
                                     .build();
-
-                            //Set random status(Delivering, delivered, seen or fail)
-                            int messageStatus = new Random().nextInt(4);
-                            message.setStatus(messageStatus);
 
                             //Set to chat view
                             mChatView.send(message);
@@ -333,7 +320,7 @@ public class ChatHeadService extends Service {
         //User id
         int myId = 0;
         //User icon
-        Bitmap myIcon = BitmapFactory.decodeResource(getResources(), R.drawable.face_2);
+        Bitmap myIcon = BitmapFactory.decodeResource(getResources(), R.drawable.csajszi);
         //User name
         String myName = "Adrienn Cseh";
 
@@ -378,30 +365,6 @@ public class ChatHeadService extends Service {
         MessageView messageView = mChatView.getMessageView();
         messageView.init(messages);
         messageView.setSelection(messageView.getCount() - 1);
-    }
-
-    private void showDialog() {
-        final String[] items = {
-                getString(R.string.send_picture),
-                getString(R.string.clear_messages)
-        };
-
-        new AlertDialog.Builder(getApplicationContext())
-                .setTitle(getString(R.string.options))
-                .setItems(items, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int position) {
-                        switch (position) {
-                            case 0:
-                                openGallery();
-                                break;
-                            case 1:
-                                mChatView.getMessageView().removeAll();
-                                break;
-                        }
-                    }
-                })
-                .show();
     }
 
     public void removeChatHead() {
