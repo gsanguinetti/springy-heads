@@ -1,8 +1,6 @@
 package com.flipkart.springyheads.demo;
 
-import android.app.AlertDialog;
 import android.app.Service;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -93,6 +91,7 @@ public class ChatHeadService extends Service {
     public void onCreate() {
         super.onCreate();
 
+        initUsers();
         windowManagerContainer = new WindowManagerContainer(this);
         chatHeadManager = new DefaultChatHeadManager<String>(this, windowManagerContainer);
         chatHeadManager.setViewAdapter(new ChatHeadViewAdapter<String>() {
@@ -103,8 +102,6 @@ public class ChatHeadService extends Service {
                 if (cachedView == null) {
                     LayoutInflater inflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
                     View view = inflater.inflate(R.layout.fragment_chat, parent, false);
-
-                    initUsers();
 
                     mChatView = (ChatView) view.findViewById(R.id.chat_view);
 
@@ -148,7 +145,6 @@ public class ChatHeadService extends Service {
                     mChatView.setOnClickOptionButtonListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            initUsers();
                             //new message
                             final Message message = new Message.Builder()
                                     .setUser(mUsers.get(0))
@@ -183,7 +179,6 @@ public class ChatHeadService extends Service {
                     mChatView.setOnClickSendButtonListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
-                            initUsers();
                             //new message
                             Message message = new Message.Builder()
                                     .setUser(mUsers.get(0))
@@ -355,30 +350,6 @@ public class ChatHeadService extends Service {
         MessageView messageView = mChatView.getMessageView();
         messageView.init(messages);
         messageView.setSelection(messageView.getCount() - 1);
-    }
-
-    private void showDialog() {
-        final String[] items = {
-                getString(R.string.send_picture),
-                getString(R.string.clear_messages)
-        };
-
-        new AlertDialog.Builder(getApplicationContext())
-                .setTitle(getString(R.string.options))
-                .setItems(items, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int position) {
-                        switch (position) {
-                            case 0:
-                                openGallery();
-                                break;
-                            case 1:
-                                mChatView.getMessageView().removeAll();
-                                break;
-                        }
-                    }
-                })
-                .show();
     }
 
     public void removeChatHead() {
