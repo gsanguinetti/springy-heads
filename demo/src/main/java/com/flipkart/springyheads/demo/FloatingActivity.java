@@ -26,8 +26,9 @@ public class FloatingActivity extends Activity {
             // We've bound to LocalService, cast the IBinder and get LocalService instance
             ChatHeadService.LocalBinder binder = (ChatHeadService.LocalBinder) service;
             chatHeadService = binder.getService();
+         //   chatHeadService.minimize();
+            chatHeadService.toggleArrangement();
             bound = true;
-            chatHeadService.minimize();
         }
 
         @Override
@@ -42,5 +43,6 @@ public class FloatingActivity extends Activity {
         Intent intent = new Intent(this, ChatHeadService.class);
         startService(intent);
         bindService(intent, mConnection, Context.BIND_AUTO_CREATE);
+
     }
 }
