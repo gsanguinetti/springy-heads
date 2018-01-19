@@ -5,6 +5,7 @@ import android.app.AlertDialog;
 import android.app.Notification;
 import android.app.PendingIntent;
 import android.app.Service;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -127,10 +128,10 @@ public class ChatHeadService extends Service {
                     loadMessages();
 
                     //Set UI parameters if you need
-                    mChatView.setRightBubbleColor(Color.BLUE);
-                    mChatView.setLeftBubbleColor(Color.LTGRAY);
-                    mChatView.setBackgroundColor(Color.WHITE);
-                    mChatView.setSendButtonColor(Color.BLUE);
+                    mChatView.setRightBubbleColor(ContextCompat.getColor(getApplicationContext(),R.color.blueGray50));
+                    mChatView.setLeftBubbleColor(ContextCompat.getColor(getApplicationContext(),R.color.premiumChatDesignColor1));
+                    mChatView.setBackgroundColor(ContextCompat.getColor(getApplicationContext(),R.color.softBackground));
+                    mChatView.setSendButtonColor(Color.WHITE);
                     mChatView.setSendIcon(SEND_ICON);
                     mChatView.setRightMessageTextColor(Color.WHITE);
                     mChatView.setLeftMessageTextColor(Color.WHITE);
@@ -427,7 +428,8 @@ public class ChatHeadService extends Service {
     }
 
     public void setMessageboxColors(ChatView chatView) {
-
+        EditText editText = (EditText) chatView.findViewById(R.id.inputBox);
+        editText.setHintTextColor(Color.WHITE);
     }
 
     /**

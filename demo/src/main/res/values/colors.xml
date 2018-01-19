@@ -24,7 +24,7 @@
     <color name="green500">#4CAF50</color>
     <color name="indigo500">#3F51B5</color>
 
-    <color name="blueGray50">#000000</color>
+
 
     <!-- Grey scales -->
     <color name="gray200">#EEEEEE</color>
@@ -36,4 +36,9 @@
     <color name="blueGray300">#90A4AE</color>
     <color name="blueGray500">#607D8B</color>
     <color name="blueGray700">#455A64</color>
+
+    <color name="blueGray50">#00838F</color>
+    <color name="premiumChatDesignColor1">#9E9E9E</color>
+    <color name="premiumChatDesignColor2">#84FFFF</color>
+    <color name="softBackground">#EEEEEE</color>
 </resources>
