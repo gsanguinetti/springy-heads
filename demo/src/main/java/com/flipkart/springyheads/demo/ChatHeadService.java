@@ -150,7 +150,7 @@ public class ChatHeadService extends Service {
                                     .setUser(mUsers.get(0))
                                     .setRightMessage(true)
                                     .setMessageText(mChatView.getInputText())
-                                    .hideIcon(true)
+                                    .hideIcon(false)
                                     .setStatusIconFormatter(new MyMessageStatusFormatter(getApplicationContext()))
                                     .setStatusTextFormatter(new MyMessageStatusFormatter(getApplicationContext()))
                                     .setMessageStatusType(Message.Companion.getMESSAGE_STATUS_ICON())
@@ -184,7 +184,7 @@ public class ChatHeadService extends Service {
                                     .setUser(mUsers.get(0))
                                     .setRightMessage(true)
                                     .setMessageText(mChatView.getInputText())
-                                    .hideIcon(true)
+                                    .hideIcon(false)
                                     .setStatusIconFormatter(new MyMessageStatusFormatter(getApplicationContext()))
                                     .setStatusTextFormatter(new MyMessageStatusFormatter(getApplicationContext()))
                                     .setMessageStatusType(Message.Companion.getMESSAGE_STATUS_ICON())
@@ -305,7 +305,7 @@ public class ChatHeadService extends Service {
         //User id
         int myId = 0;
         //User icon
-        Bitmap myIcon = BitmapFactory.decodeResource(getResources(), R.drawable.face_2);
+        Bitmap myIcon = BitmapFactory.decodeResource(getResources(), R.drawable.csajszi);
         //User name
         String myName = "Customer";
 
