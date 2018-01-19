@@ -2,7 +2,6 @@ package com.flipkart.springyheads.demo;
 
 import android.app.AlertDialog;
 import android.app.Service;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -17,6 +16,7 @@ import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 
 import com.flipkart.chatheads.ui.ChatHead;
 import com.flipkart.chatheads.ui.ChatHeadViewAdapter;
@@ -114,9 +114,9 @@ public class ChatHeadService extends Service {
                     loadMessages();
 
                     //Set UI parameters if you need
-                    mChatView.setRightBubbleColor(ContextCompat.getColor(getApplicationContext(),R.color.blueGray50));
-                    mChatView.setLeftBubbleColor(ContextCompat.getColor(getApplicationContext(),R.color.premiumChatDesignColor1));
-                    mChatView.setBackgroundColor(ContextCompat.getColor(getApplicationContext(),R.color.softBackground));
+                    mChatView.setRightBubbleColor(ContextCompat.getColor(getApplicationContext(), R.color.blueGray50));
+                    mChatView.setLeftBubbleColor(ContextCompat.getColor(getApplicationContext(), R.color.premiumChatDesignColor1));
+                    mChatView.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.softBackground));
                     mChatView.setSendButtonColor(Color.WHITE);
                     mChatView.setSendIcon(SEND_ICON);
                     mChatView.setRightMessageTextColor(Color.WHITE);
