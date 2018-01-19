@@ -26,6 +26,7 @@ dependencies {
         exclude group: 'com.android.support'
     }
     compile project(':library')
+    compile 'com.google.code.gson:gson:2.3.1'
     compile 'com.github.flipkart-incubator:circular-image:1.0'
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
 }
